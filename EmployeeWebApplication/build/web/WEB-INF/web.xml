@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>StartSesion</servlet-name>
+        <servlet-class>za.ac.tut.web.StartSesion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddEmployeeServlet</servlet-name>
+        <servlet-class>za.ac.tut.web.AddEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveEmployeeServlet</servlet-name>
+        <servlet-class>za.ac.tut.web.RemoveEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyEmpServlet</servlet-name>
+        <servlet-class>za.ac.tut.web.ModifyEmpServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetEmployeesServlet</servlet-name>
+        <servlet-class>za.ac.tut.web.GetEmployeesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartSesion</servlet-name>
+        <url-pattern>/StartSesion.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddEmployeeServlet</servlet-name>
+        <url-pattern>/AddEmployeeServlet.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveEmployeeServlet</servlet-name>
+        <url-pattern>/RemoveEmployeeServlet.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyEmpServlet</servlet-name>
+        <url-pattern>/ModifyEmpServlet.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetEmployeesServlet</servlet-name>
+        <url-pattern>/GetEmployeesServlet.do</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <security-constraint>
+        <display-name>ManagerConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>ManagerResources</web-resource-name>
+            <description>Resources accessible to a manager</description>
+            <url-pattern>/AddEmployeeServlet.do</url-pattern>
+            <url-pattern>/GetEmployeesServlet.do</url-pattern>
+            <url-pattern>/ModifyEmpServlet.do</url-pattern>
+            <url-pattern>/RemoveEmployeeServlet.do</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Enable authentication of manager</description>
+            <role-name>manager</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>EmployeeConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Employee Resources</web-resource-name>
+            <description>Resources available to an employee</description>
+            <url-pattern>/AddEmployeeServlet.do</url-pattern>
+            <url-pattern>/GetEmployeesServlet.do</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Enable authentication of employee</description>
+            <role-name>employee</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>FRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/login_page.jsp</form-login-page>
+            <form-error-page>/login_error.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Manager can add, delete, edit and view employees</description>
+        <role-name>manager</role-name>
+    </security-role>
+    <security-role>
+        <description>An employee can add their details.</description>
+        <role-name>employee</role-name>
+    </security-role>
+</web-app>
